@@ -1,33 +1,81 @@
 import { ICfbApiTeam, ITeam } from '../@types/team';
-import { getTeams } from '../services/cfbApi';
+import { getCfbApiTeams } from '../services/cfbApi';
 import { supabase } from '../setupSupabase';
 
 async function importTeams() {
   // Get all the teams
-  const teams = await getTeams();
+  const teams = await getCfbApiTeams();
 
-  // Convert the teams to the format we want
+  // Filter out any teams that don't have the required fields
+  // and convert the teams to the format we want
   const sanitizedTeams = teams
     .filter((team: ICfbApiTeam) => {
-      const { school, conference, classification } = team;
+      const {
+        classification,
+        color,
+        conference,
+        id,
+        location,
+        logos,
+        mascot,
+        school,
+      } = team;
 
-      return school && conference && classification;
+      return (
+        classification &&
+        color &&
+        conference &&
+        id &&
+        location &&
+        location.city &&
+        location.state &&
+        location.latitude &&
+        location.longitude &&
+        logos &&
+        logos.length > 0 &&
+        mascot &&
+        school
+      );
     })
     .map((team: ICfbApiTeam): Partial<ITeam> => {
-      const { school, conference, classification } = team;
+      const {
+        alt_color,
+        classification,
+        color,
+        conference,
+        id,
+        location,
+        logos,
+        mascot,
+        school,
+      } = team;
 
+      const colors = [color];
+      if (alt_color) {
+        colors.push(alt_color);
+      }
       return {
+        cfbId: id,
         name: school,
         conference,
         class: classification,
+        colors,
+        logos,
+        mascot,
+        city: location.city,
+        state: location.state,
+        latitude: location.latitude,
+        longitude: location.longitude,
       };
     });
 
-  console.log('sanitizedTeams', JSON.stringify(sanitizedTeams));
   // Insert the teams into the database
-  const { data } = await supabase.from('team').insert(sanitizedTeams).select();
-  console.log('data', JSON.stringify(data));
+  const { data, error } = await supabase
+    .from('team')
+    .insert(sanitizedTeams)
+    .select();
 
+  console.log(JSON.stringify(error));
   return data;
 }
 

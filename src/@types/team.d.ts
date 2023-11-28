@@ -31,9 +31,17 @@ export interface ICfbApiTeam {
 }
 
 export interface ITeam {
+  cfbId: number;
+  city: string;
   class: string;
+  colors: string[];
   conference: string;
   created_at: string;
   id: number;
+  latitude: number;
+  logos: string[];
+  longitude: number;
+  mascot: string;
   name: string;
+  state: string;
 }

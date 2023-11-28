@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
 
-import { getTeams } from '../../services/cfbApi';
+import { getTeams } from '../../services/teams';
 
 export async function teamsController(req: Request, res: Response) {
-  const teams = await getTeams();
+  const { limit = 20, page = 0, offset = 0, search } = req.query;
+  const teams = await getTeams({
+    limit: Number(limit),
+    offset: Number(offset),
+    page: Number(page),
+    search: search as string,
+  });
 
   res.status(200).json(teams);
 

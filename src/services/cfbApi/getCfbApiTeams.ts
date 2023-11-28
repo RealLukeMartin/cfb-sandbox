@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ICfbApiTeam } from '../../@types/team';
 import { config } from '../../config';
 
-export async function getTeams(): Promise<ICfbApiTeam[]> {
+export async function getCfbApiTeams(): Promise<ICfbApiTeam[]> {
   const { apiKey, apiUrl } = config.cfbd;
 
   const requestConfig = {

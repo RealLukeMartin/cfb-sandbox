@@ -1,1 +1,1 @@
-export * from './getTeams';
+export * from './getCfbApiTeams';
