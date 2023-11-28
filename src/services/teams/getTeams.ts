@@ -5,20 +5,18 @@ import { supabase } from '../../setupSupabase';
 export async function getTeams(input: IPaginationInputs): Promise<ITeam[]> {
   const { page, offset, limit, search } = input;
 
+  const baseQuery = supabase
+    .from('team')
+    .select('*')
+    .range(page + offset, limit - 1);
+
   if (!search) {
-    const { data } = await supabase
-      .from('team')
-      .select('*')
-      .range(page + offset, limit);
+    const { data } = await baseQuery;
 
     return data as ITeam[];
   }
 
-  const { data } = await supabase
-    .from('team')
-    .select('*')
-    .textSearch('name', search)
-    .range(offset, limit);
+  const { data } = await baseQuery.textSearch('name', search);
 
   return data as ITeam[];
 }
