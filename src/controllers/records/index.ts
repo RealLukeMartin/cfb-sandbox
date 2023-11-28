@@ -1,0 +1,1 @@
+export { recordsController } from './recordsController';

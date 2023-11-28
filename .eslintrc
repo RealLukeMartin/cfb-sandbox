@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "env": {
+    "browser": false,
+    "amd": true,
+    "node": true
+  },
+
+  // PARSER
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": [
+      "./tsconfig.json",
+      "./tsconfig.development.json"
+    ],
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+
+  // PLUGINS
+  "plugins": ["@typescript-eslint"],
+
+  // EXTENDS
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    // Prettier extends last
+    // to override conflicting rules
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+
+  // OVERRIDES
+  "overrides": [],
+
+  // RULES
+  "rules": {
+    // Revisit no console, good for early stages, may want off later
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "prefix": ["I"]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ]
+      }
+    ]
+  },
+
+  // SETTINGS
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
+  }
+}
