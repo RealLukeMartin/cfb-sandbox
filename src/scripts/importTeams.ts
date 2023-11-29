@@ -34,7 +34,8 @@ async function importTeams() {
         logos &&
         logos.length > 0 &&
         mascot &&
-        school
+        school &&
+        classification === 'fbs'
       );
     })
     .map((team: ICfbApiTeam): Partial<ITeam> => {
@@ -71,7 +72,7 @@ async function importTeams() {
 
   // Insert the teams into the database
   const { data, error } = await supabase
-    .from('team')
+    .from('teams')
     .insert(sanitizedTeams)
     .select();
 

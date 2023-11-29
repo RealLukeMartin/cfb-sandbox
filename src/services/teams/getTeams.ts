@@ -6,7 +6,7 @@ export async function getTeams(input: IPaginationInputs): Promise<ITeam[]> {
   const { page, offset, limit, search } = input;
 
   const baseQuery = supabase
-    .from('team')
+    .from('teams')
     .select('*')
     .range(page + offset, limit - 1);
 
