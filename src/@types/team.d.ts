@@ -1,3 +1,5 @@
+import { IPaginationInputs } from './utils';
+
 export interface ICfbApiTeam {
   id: number;
   school: string;
@@ -44,4 +46,8 @@ export interface ITeam {
   mascot: string;
   name: string;
   state: string;
+}
+
+export interface ITeamsPaginationInputs extends IPaginationInputs {
+  team?: string;
 }

@@ -1,37 +1,18 @@
-import axios from 'axios';
 import { Request, Response } from 'express';
 
-import { config } from '../../config';
+import { getRecords } from '../../services/records';
 
 export async function recordsController(req: Request, res: Response) {
-  const { apiKey, apiUrl } = config.cfbd;
-  const { team } = req.query;
+  const { limit = 100, page = 0, offset = 0, teamId } = req.query;
 
-  if (!team || typeof team !== 'string') {
-    res.status(403).json({
-      error: 'Invalid team query parameter',
-    });
+  const records = await getRecords({
+    limit: Number(limit),
+    offset: Number(offset),
+    page: Number(page),
+    teamId: Number(teamId),
+  });
 
-    return res;
-  }
-
-  const requestConfig = {
-    headers: { Authorization: `Bearer ${apiKey}` },
-    params: {
-      team,
-    },
-  };
-
-  let response: Record<string, unknown>;
-
-  try {
-    response = await axios.get(`${apiUrl}/records`, requestConfig);
-  } catch (error) {
-    console.log(error);
-    throw new Error(String(error));
-  }
-
-  res.status(200).json(response.data);
+  res.status(200).json(records);
 
   return res;
 }

@@ -1,3 +1,5 @@
+import { IPaginationInputs } from './utils';
+
 export interface ICfbApiRecord {
   year: number;
   teamId: number;
@@ -41,4 +43,8 @@ export interface IRecord {
   year: number;
   ties: number;
   team: string;
+}
+
+export interface IRecordsPaginationInputs extends IPaginationInputs {
+  teamId: number;
 }
