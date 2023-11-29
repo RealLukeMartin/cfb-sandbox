@@ -55,6 +55,7 @@ async function importTeams() {
       if (alt_color) {
         colors.push(alt_color);
       }
+
       return {
         cfbId: id,
         name: school,

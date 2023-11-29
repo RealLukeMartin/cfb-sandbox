@@ -9,7 +9,43 @@ export type Json =
 export interface IDatabase {
   public: {
     Tables: {
-      team: {
+      records: {
+        Row: {
+          created_at: string;
+          games: number;
+          id: number;
+          losses: number;
+          team: string;
+          teamId: number;
+          ties: number;
+          wins: number;
+          year: number;
+        };
+        Insert: {
+          created_at?: string;
+          games: number;
+          id?: number;
+          losses: number;
+          team: string;
+          teamId: number;
+          ties: number;
+          wins: number;
+          year: number;
+        };
+        Update: {
+          created_at?: string;
+          games?: number;
+          id?: number;
+          losses?: number;
+          team?: string;
+          teamId?: number;
+          ties?: number;
+          wins?: number;
+          year?: number;
+        };
+        Relationships: [];
+      };
+      teams: {
         Row: {
           cfbId: number;
           city: string;

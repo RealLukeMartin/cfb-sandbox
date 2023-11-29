@@ -9,7 +9,9 @@
     "build": "tsc",
     "deploy": "git push heroku master",
     "supabase": "supabase",
-    "import-teams": "ts-node --files src/scripts/importTeams.ts"
+    "gen-db-types": "supabase gen types typescript --project-id lhfyjdgxquflldawvqwh > src/@types/database.d.ts",
+    "import-teams": "ts-node --files src/scripts/importTeams.ts",
+    "import-records": "ts-node --files src/scripts/importRecords.ts"
   },
   "author": "",
   "license": "ISC",
