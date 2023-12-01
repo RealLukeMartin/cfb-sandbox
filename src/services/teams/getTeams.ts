@@ -27,9 +27,6 @@ export async function getTeams(
   if (!team) {
     const { data } = await baseQuery;
     const { count } = await baseCountQuery;
-    if (data) {
-      console.log('first team', data[0].name);
-    }
     if (!count) {
       throw new Error('No count');
     }
