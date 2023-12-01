@@ -1,23 +1,53 @@
 import { ITeam, ITeamsPaginationInputs } from '../../@types/team';
 import { supabase } from '../../setupSupabase';
 
+export interface ITeamsResponse {
+  teams: ITeam[];
+  count: number;
+}
+
 export async function getTeams(
   input: ITeamsPaginationInputs,
-): Promise<ITeam[]> {
+): Promise<ITeamsResponse> {
   const { page, offset, limit, team } = input;
+
+  const startingRange = page * limit + offset;
+  const pageOffset = 1 + page;
+  const endingRange = pageOffset * limit + offset;
 
   const baseQuery = supabase
     .from('teams')
     .select('*')
-    .range(page + offset, limit - 1);
+    .range(startingRange, endingRange - 1);
+
+  const baseCountQuery = supabase
+    .from('teams')
+    .select('id', { count: 'exact' });
 
   if (!team) {
     const { data } = await baseQuery;
-
-    return data as ITeam[];
+    const { count } = await baseCountQuery;
+    if (data) {
+      console.log('first team', data[0].name);
+    }
+    if (!count) {
+      throw new Error('No count');
+    }
+    return {
+      teams: data as ITeam[],
+      count,
+    };
   }
 
   const { data } = await baseQuery.textSearch('name', team);
+  const { count } = await baseCountQuery.textSearch('name', team);
 
-  return data as ITeam[];
+  if (!count) {
+    throw new Error('No count');
+  }
+
+  return {
+    teams: data as ITeam[],
+    count,
+  };
 }
