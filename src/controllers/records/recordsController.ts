@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { getRecords } from '../../services/records';
 
 export async function recordsController(req: Request, res: Response) {
-  const { limit = 100, page = 0, offset = 0, teamId } = req.query;
+  const { limit = 150, page = 0, offset = 0, teamId } = req.query;
 
   const records = await getRecords({
     limit: Number(limit),
