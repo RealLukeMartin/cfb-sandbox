@@ -40,7 +40,11 @@ export async function getTeams(
   const { count } = await baseCountQuery.textSearch('name', team);
 
   if (!count) {
-    throw new Error('No count');
+    console.log('No Teams Found');
+    return {
+      teams: [] as ITeam[],
+      count: 0,
+    };
   }
 
   return {

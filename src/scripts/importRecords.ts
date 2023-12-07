@@ -13,8 +13,8 @@ async function importRecords() {
   });
 
   const teamRecords = [] as ICfbApiRecord[][];
-  for (let i = 0; i < teams.length; i += 1) {
-    const { name } = teams[i];
+  for (let i = 0; i < teams.teams.length; i += 1) {
+    const { name } = teams.teams[i];
 
     console.log(`Getting records for ${name}`);
     // eslint-disable-next-line no-await-in-loop
@@ -34,7 +34,9 @@ async function importRecords() {
   // For each record, find the team that matches the record's team name
   // and then create a new entry in the array with teamId and record details
   const records = flattenedRecords.map((record): Partial<IRecord> => {
-    const teamForThisRecord = teams.find((team) => team.name === record.team);
+    const teamForThisRecord = teams.teams.find(
+      (team) => team.name === record.team,
+    );
 
     return {
       teamId: teamForThisRecord?.id,
