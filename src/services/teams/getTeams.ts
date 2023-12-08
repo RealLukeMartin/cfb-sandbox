@@ -28,7 +28,21 @@ export async function getTeams(
     const { data } = await baseQuery;
     const { count } = await baseCountQuery;
     if (!count) {
-      throw new Error('No count');
+      console.log('No Teams Found');
+      return {
+        teams: [
+          {
+            name: 'No Teams Found',
+            conference: '',
+            city: '',
+            state: '',
+            logos: [
+              'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf',
+            ],
+          },
+        ] as ITeam[],
+        count: 1,
+      };
     }
     return {
       teams: data as ITeam[],
@@ -42,8 +56,19 @@ export async function getTeams(
   if (!count) {
     console.log('No Teams Found');
     return {
-      teams: [] as ITeam[],
-      count: 0,
+      teams: [
+        {
+          id: 0,
+          name: 'No Teams Found',
+          conference: '',
+          city: '',
+          state: '',
+          logos: [
+            'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf',
+          ],
+        },
+      ] as ITeam[],
+      count: 1,
     };
   }
 
