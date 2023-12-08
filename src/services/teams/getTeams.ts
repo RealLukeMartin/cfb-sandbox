@@ -50,8 +50,11 @@ export async function getTeams(
     };
   }
 
-  const { data } = await baseQuery.textSearch('name', team);
-  const { count } = await baseCountQuery.textSearch('name', team);
+  const { data } = await baseQuery.textSearch('name', team.replace(' ', ','));
+  const { count } = await baseCountQuery.textSearch(
+    'name',
+    team.replace(' ', ','),
+  );
 
   if (!count) {
     console.log('No Teams Found');
